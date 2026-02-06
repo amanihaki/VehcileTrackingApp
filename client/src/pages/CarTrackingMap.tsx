@@ -16,14 +16,17 @@ import {
   selectVehicleModalData,
   setSelectedPlate,
 } from "../store/vehicleSlice";
+import { easeInOutQuad, interpolateAngle } from "../utils/animation";
+
+import styles from "./CarTrackingMap.module.scss";
+
 import type {
   LastVehicleState,
   PlaybackMeta,
   VehicleDataMessage,
   VehicleStatus,
 } from "../types";
-import { easeInOutQuad, interpolateAngle } from "../utils/animation";
-import styles from "./CarTrackingMap.module.scss";
+import { VehicleStatusEnum } from "../types";
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
@@ -141,7 +144,7 @@ export default function CarTrackingMap() {
       carId: string,
       lng: number,
       lat: number,
-      heading: number
+      heading: number,
     ): mapboxgl.Marker => {
       let marker = markersRef.current[carId];
       if (!marker && mapRef.current) {
@@ -153,6 +156,7 @@ export default function CarTrackingMap() {
         el.style.alignItems = "center";
         el.style.justifyContent = "center";
         el.style.cursor = "pointer";
+
         const inner = document.createElement("div");
         inner.className = "marker-inner";
         inner.style.width = "100%";
@@ -187,7 +191,7 @@ export default function CarTrackingMap() {
       lat: number,
       heading: number,
       iconUrl: string,
-      carId: string
+      carId: string,
     ) => {
       const existing = overlayMarkersRef.current[key];
       if (existing) {
@@ -219,22 +223,22 @@ export default function CarTrackingMap() {
       lng: number,
       lat: number,
       heading: number,
-      status: VehicleStatus
+      status: VehicleStatus,
     ) => {
       ensureMainMarker(carId, lng, lat, heading);
 
-      if (status === "stopped") {
+      if (status === VehicleStatusEnum.STOPPED) {
         setOverlayMarker(
           `${carId}-stopped`,
           lng,
           lat,
           heading,
           StoppedIcon,
-          carId
+          carId,
         );
         return;
       }
-      if (status === "idle") {
+      if (status === VehicleStatusEnum.IDLE) {
         setOverlayMarker(`${carId}-idle`, lng, lat, heading, IdleIcon, carId);
       }
     };
@@ -244,7 +248,7 @@ export default function CarTrackingMap() {
         ? [...pathRef.current, inFlight]
         : pathRef.current;
       const pathSource = mapRef.current?.getSource(
-        "carPath"
+        "carPath",
       ) as mapboxgl.GeoJSONSource;
       if (pathSource) {
         pathSource.setData({
@@ -276,7 +280,7 @@ export default function CarTrackingMap() {
       toLat: number,
       toAngle: number,
       status: VehicleStatus,
-      plate: string
+      plate: string,
     ) => {
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
@@ -334,7 +338,7 @@ export default function CarTrackingMap() {
           lat,
           lng,
           status,
-        })
+        }),
       );
 
       const last = lastVehicleStateRef.current[plate];
@@ -371,7 +375,7 @@ export default function CarTrackingMap() {
             lat,
             angle,
             status,
-            plate
+            plate,
           );
         }
         lastVehicleStateRef.current[plate] = { lng, lat, angle, status };
