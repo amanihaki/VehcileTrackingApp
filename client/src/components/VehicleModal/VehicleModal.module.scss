@@ -1,0 +1,99 @@
+.vehicleModal {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 320px;
+  max-width: calc(100vw - 48px);
+  background: rgba(45, 45, 45, 0.95);
+  border-radius: 10px;
+  padding: 14px 18px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  font-family: system-ui, -apple-system, sans-serif;
+  color: #fff;
+}
+
+.vehicleModalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.vehicleModalTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.closeBtn {
+  background: transparent;
+  border: none;
+  color: #bababa;
+  cursor: pointer;
+  padding: 0;
+  font-size: 18px;
+  line-height: 1;
+      position: absolute;
+    right: 15px;
+    top: 10px;
+
+  &:hover {
+    color: #fff;
+  }
+}
+
+.vehicleModalLocation {
+  font-size: 14px;
+  color: #fff;
+  line-height: 1.45;
+  margin-bottom: 14px;
+  word-break: break-word;
+}
+
+.vehicleModalMetrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 20px;
+  align-items: center;
+}
+
+.metricItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.metricIcon {
+  opacity: 0.85;
+
+  &.invert {
+    filter: brightness(0) invert(0.9);
+  }
+}
+
+.metricValue {
+  font-size: 13px;
+  color: #fff;
+  text-transform: capitalize;
+}
+
+.statusDot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  flex-shrink: 0;
+
+  &.moving {
+    background: #22c55e;
+  }
+
+  &.stopped {
+    background: #ef4444;
+  }
+
+  &.idle {
+    background: #eab308;
+  }
+}

@@ -1,5 +1,7 @@
+import CarTrackingMap from "./pages/CarTrackingMap";
+
 function App() {
-  return <div>App</div>;
+  return <CarTrackingMap />;
 }
 
 export default App;

@@ -1,7 +1,7 @@
-import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
-import { Server } from 'socket.io';
-import { readFileSync, existsSync } from 'fs';
-import { join } from 'path';
+import { Injectable, OnModuleDestroy, OnModuleInit } from "@nestjs/common";
+import { existsSync, readFileSync } from "fs";
+import { join } from "path";
+import { Server } from "socket.io";
 
 interface VehicleDataPoint {
   lat: number;
@@ -38,24 +38,24 @@ export class SimulationService implements OnModuleInit, OnModuleDestroy {
 
   private loadVehicleData() {
     const vehiclePlateNumbers = [
-      'DXB-AX-36352',
-      'DXB-BX-36355',
-      'DXB-CX-36357',
-      'DXB-CX-36358',
-      'DXB-DX-36353',
-      'DXB-DX-36357',
-      'DXB-DX-36359',
-      'DXB-IX-36356',
-      'DXB-IX-36360',
-      'DXB-XX-36353',
+      "DXB-AX-36352",
+      "DXB-BX-36355",
+      "DXB-CX-36357",
+      "DXB-CX-36358",
+      "DXB-DX-36353",
+      "DXB-DX-36357",
+      "DXB-DX-36359",
+      "DXB-IX-36356",
+      "DXB-IX-36360",
+      "DXB-XX-36353",
     ];
 
-    vehiclePlateNumbers.forEach(plate => {
-      const filePath = join(process.cwd(), 'src', 'data', `${plate}.json`);
+    vehiclePlateNumbers.forEach((plate) => {
+      const filePath = join(process.cwd(), "src", "data", `${plate}.json`);
 
       if (existsSync(filePath)) {
         try {
-          const data = readFileSync(filePath, 'utf-8');
+          const data = readFileSync(filePath, "utf-8");
           this.vehicles[plate] = JSON.parse(data);
           this.currentIndices[plate] = 0;
           console.log(`Loaded data for vehicle ${plate}`);
@@ -69,17 +69,17 @@ export class SimulationService implements OnModuleInit, OnModuleDestroy {
   }
 
   private startSimulation() {
-    Object.keys(this.vehicles).forEach(plate => {
+    Object.keys(this.vehicles).forEach((plate) => {
       this.vehicleTimers[plate] = setInterval(() => {
         this.emitNextDataPoint(plate);
       }, 1000);
     });
-    console.log('Simulation started for all vehicles.');
+    console.log("Simulation started for all vehicles.");
   }
 
   private stopSimulation() {
-    Object.values(this.vehicleTimers).forEach(timer => clearInterval(timer));
-    console.log('Simulation stopped.');
+    Object.values(this.vehicleTimers).forEach((timer) => clearInterval(timer));
+    console.log("Simulation stopped.");
   }
 
   private emitNextDataPoint(plate: string) {
@@ -93,7 +93,7 @@ export class SimulationService implements OnModuleInit, OnModuleDestroy {
     }
 
     const dataPoint = vehicleData[currentIndex];
-    this.server.to(plate).emit('vehicleData', { plate, data: dataPoint });
+    this.server.to(plate).emit("vehicleData", { plate, data: dataPoint });
     console.log(`Emitted data for ${plate}:`, dataPoint);
 
     this.currentIndices[plate] += 1;
