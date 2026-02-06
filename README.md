@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Frontend Developer Assessment
 
 ## Table of Contents
@@ -150,6 +149,3 @@ This project is licensed under the [MIT License](LICENSE).
 ---
 
 Feel free to customize this `README.md` further to fit the specific details and requirements of your project. If you encounter any issues or have additional questions, please refer to the [Troubleshooting](#troubleshooting) section or reach out for further assistance.
-=======
-# VehcileTrackingApp
->>>>>>> 557596dcc7d0683b2ad92089ec5e2a9abe9c0166
